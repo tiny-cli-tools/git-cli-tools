@@ -49,3 +49,13 @@ git-add-missing-signatures
 ```
 
 This tools supports only trivial, linear history and is definitely not suited for large or complex cases.
+
+### `git-remote-change-protocol`
+
+Changes the protocol of a remote's URL between `https` and `ssh`. Deafult remote is `origin`.
+
+Example:
+
+```
+git-remote-change-protocol --protocol=ssh
+```
