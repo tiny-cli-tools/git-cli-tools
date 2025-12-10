@@ -1,0 +1,19 @@
+[project]
+name = "tiny-git-cli-tools"
+version = "0.1.0"
+description = "Simple command-line tools for working with Git"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "gitpython>=3.1.0",
+]
+
+[project.scripts]
+git-normalize-newlines = "tiny_git_cli_tools.git_normalize_newlines:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["tiny_git_cli_tools*"]
