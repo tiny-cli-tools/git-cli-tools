@@ -37,3 +37,15 @@ git-change-author --author-name "Your Name" --author-email you@example.com
 ```
 
 This tool supports only trivial, linear history and is definitely not suited for large or complex cases.
+
+### `git-add-missing-signatures`
+
+Rewrites all recent unsigned commits, signing them.
+
+Example:
+
+```
+git-add-missing-signatures
+```
+
+This tools supports only trivial, linear history and is definitely not suited for large or complex cases.
