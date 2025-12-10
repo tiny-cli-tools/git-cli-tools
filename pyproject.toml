@@ -10,6 +10,7 @@ dependencies = [
 
 [project.scripts]
 git-normalize-newlines = "tiny_git_cli_tools.git_normalize_newlines:main"
+git-change-author = "tiny_git_cli_tools.git_change_author:main"
 
 [build-system]
 requires = ["setuptools>=61.0"]

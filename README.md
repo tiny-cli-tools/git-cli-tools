@@ -25,3 +25,15 @@ Example usage:
 ```sh
 git-normalize-newlines
 ```
+
+### `git-change-author`
+
+This tool rewrites the current branch so every commit uses a new author identity.
+
+Example usage:
+
+```
+git-change-author --author-name "Your Name" --author-email you@example.com
+```
+
+This tool supports only trivial, linear history and is definitely not suited for large or complex cases.
