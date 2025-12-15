@@ -6,6 +6,9 @@ readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
     "gitpython>=3.1.0",
+    "toml>=0.10.0",
+    "openai>=0.27.0",
+    "pydantic>=1.8.0",
 ]
 
 [project.scripts]
@@ -13,6 +16,7 @@ git-normalize-newlines = "tiny_git_cli_tools.git_normalize_newlines:main"
 git-change-author = "tiny_git_cli_tools.git_change_author:main"
 git-add-missing-signatures = "tiny_git_cli_tools.git_add_missing_signatures:main"
 git-remote-change-protocol = "tiny_git_cli_tools.git_remote_change_protocol:main"
+git-name-feature-branch = "tiny_git_cli_tools.git_name_feature_branch:main"
 
 [build-system]
 requires = ["setuptools>=61.0"]
