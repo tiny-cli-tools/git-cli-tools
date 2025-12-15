@@ -10,6 +10,20 @@ You can install the tools using [`pipx`](https://pipxproject.github.io/pipx/):
 pipx install git+https://github.com/tiny-cli-tools/git-cli-tools.git
 ```
 
+## Configuration
+
+Some tools require configuration. Config file path: `~/.config/tiny_git_tools/config.toml`.
+
+Configuration fields:
+
+- `openai_api_key`: (string, optional) OpenAI API key for tools that use OpenAI services.
+
+Example config:
+
+```toml
+openai_api_key = "sk-svcacct-abcd1234"
+```
+
 ## Tools
 
 ### `git-normalize-newlines`
@@ -52,10 +66,22 @@ This tools supports only trivial, linear history and is definitely not suited fo
 
 ### `git-remote-change-protocol`
 
-Changes the protocol of a remote's URL between `https` and `ssh`. Deafult remote is `origin`.
+Changes the protocol of a remote's URL between `https` and `ssh`. Default remote is `origin`.
 
 Example:
 
 ```
 git-remote-change-protocol --protocol=ssh
+```
+
+### `git-name-feature-branch`
+
+This tool generates a name for a feature branch based on the recent commits that aren't merged-in to the target branch
+yet. The default target branch is `origin/main`. After generating the name, it creates a new feature branch with that
+name. By default, it also switches to the new branch.
+
+Example:
+
+```
+git-name-feature-branch
 ```
