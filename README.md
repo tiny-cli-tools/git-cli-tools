@@ -1,6 +1,6 @@
 # Tiny Git CLI tools
 
-This repository contains a few very simple command-line tools that can be handy when working with Git. The tools are implemented in Python and use the [GitPython](https://gitpython.readthedocs.io/en/stable/) library.
+This repository contains a few very simple command-line tools that can be handy when working with Git and GitHub. The tools are implemented in Python and use the [GitPython](https://gitpython.readthedocs.io/en/stable/) library.
 
 ## Installation
 
@@ -17,6 +17,7 @@ Some tools require configuration. Config file path: `~/.config/tiny_git_tools/co
 Configuration fields:
 
 - `openai_api_key`: (string, optional) OpenAI API key for tools that use OpenAI services.
+- `github_token`: (string, optional) GitHub Personal Access Token for tools that interact with GitHub API.
 
 Example config:
 
@@ -56,7 +57,7 @@ This tool supports only trivial, linear history and is definitely not suited for
 
 Rewrites all recent unsigned commits, signing them.
 
-Example:
+Example usage:
 
 ```
 git-add-missing-signatures
@@ -68,7 +69,7 @@ This tools supports only trivial, linear history and is definitely not suited fo
 
 Changes the protocol of a remote's URL between `https` and `ssh`. Default remote is `origin`.
 
-Example:
+Example usage:
 
 ```
 git-remote-change-protocol --protocol=ssh
@@ -80,8 +81,27 @@ This tool generates a name for a feature branch based on the recent commits that
 yet. The default target branch is `origin/main`. After generating the name, it creates a new feature branch with that
 name. By default, it also switches to the new branch.
 
-Example:
+Example usage:
 
 ```
 git-name-feature-branch
+```
+
+### `github-create-pr`
+
+Create a new automatically named branch and an automatically filled GitHub Pull Request based on the unmerged commits.
+Uses OpenAI API (GPT). Auto-merging can be optionally enabled on the created Pull Request. Requires both OpenAI API key
+and GitHub token to be configured.
+
+A classic GitHub personal access token needs at least the `repo` scope enabled.
+
+A fine-grained GitHub personal access token needs at least a "Pull Requests: Read and write" permission. A single
+fine-grained token can be used only for repositories owned by a single repository owner (your account _or_ a single
+organization). If you want to create Pull Requests in repositories in multiple organizations, you have to use a classic
+token instead.
+
+Example usage:
+
+```
+github-create-pr --enable-auto-merge
 ```

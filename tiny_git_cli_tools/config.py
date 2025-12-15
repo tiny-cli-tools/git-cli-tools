@@ -24,7 +24,9 @@ class Config:
             return cls(openai_api_key=None)
 
         return cls(
-            openai_api_key=data.get('openai_api_key', None)
+            openai_api_key=data.get('openai_api_key', None),
+            github_token=data.get('github_token', None),
         )
 
     openai_api_key: Optional[str]
+    github_token: Optional[str]

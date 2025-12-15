@@ -9,6 +9,7 @@ dependencies = [
     "toml>=0.10.0",
     "openai>=0.27.0",
     "pydantic>=1.8.0",
+    "pygithub>=2.8.1",
 ]
 
 [project.scripts]
@@ -17,6 +18,7 @@ git-change-author = "tiny_git_cli_tools.git_change_author:main"
 git-add-missing-signatures = "tiny_git_cli_tools.git_add_missing_signatures:main"
 git-remote-change-protocol = "tiny_git_cli_tools.git_remote_change_protocol:main"
 git-name-feature-branch = "tiny_git_cli_tools.git_name_feature_branch:main"
+github-create-pr = "tiny_git_cli_tools.github_create_pr:main"
 
 [build-system]
 requires = ["setuptools>=61.0"]

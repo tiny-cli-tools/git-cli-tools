@@ -1,65 +1,16 @@
 #!/usr/bin/env python3
 import argparse
 import sys
-from typing import final, Tuple
-from urllib.parse import urlparse
 from enum import Enum
-from abc import ABC, abstractmethod
 
 from git import Repo, Remote
+
+from .remote_locator import RemoteLocator, HttpsRemoteLocator, SshRemoteLocator
 
 
 class RemoteProtocol(Enum):
     HTTPS = 'https'
     SSH = 'ssh'
-
-
-class RemoteLocator(ABC):
-    @abstractmethod
-    def to_url(self) -> str:
-        pass
-
-    @classmethod
-    def parse_url(cls, url: str) -> "RemoteLocator":
-        if url.startswith('https://'):
-            parsed = urlparse(url)
-            if not parsed.hostname or not parsed.path:
-                raise ValueError(f'Unsupported HTTPS remote URL format: {url}')
-            return HttpsRemoteLocator(host=parsed.hostname, path=parsed.path.lstrip('/'))
-
-        # Not really an URL, but it's called so in Git
-        if '@' in url and ':' in url:
-            left, path = url.split(':', 1)
-            user, host = left.split('@', 1)
-            return SshRemoteLocator(user=user, host=host, path=path)
-
-        raise ValueError(f'Cannot parse remote URL: {url}')
-
-@final
-class HttpsRemoteLocator(RemoteLocator):
-    def __init__(self, host: str, path: str):
-        self._host = host
-        self._path = path
-
-    def to_ssh(self, user: str) -> "SshRemoteLocator":
-        return SshRemoteLocator(user=user, host=self._host, path=self._path)
-
-    def to_url(self) -> str:
-        return f'https://{self._host}/{self._path}'
-
-@final
-class SshRemoteLocator(RemoteLocator):
-    def __init__(self, user: str, host: str, path: str):
-        self._user = user
-        self._host = host
-        self._path = path
-
-    def to_https(self) -> "HttpsRemoteLocator":
-        return HttpsRemoteLocator(host=self._host, path=self._path)
-
-    def to_url(self) -> str:
-        # Not really an URL, but it's called so in Git
-        return f'{self._user}@{self._host}:{self._path}'
 
 
 def parse_args() -> argparse.Namespace:
@@ -77,20 +28,20 @@ def parse_args() -> argparse.Namespace:
 
 
 def build_new_locator(
-    current_locator: RemoteLocator,
-    target_protocol: RemoteProtocol,
-    user: str,
+        current_locator: RemoteLocator,
+        target_protocol: RemoteProtocol,
+        user: str,
 ) -> RemoteLocator | None:
     if target_protocol == RemoteProtocol.HTTPS:
         if isinstance(current_locator, HttpsRemoteLocator):
-            return
+            return None
         elif isinstance(current_locator, SshRemoteLocator):
             return current_locator.to_https()
         else:
             raise ValueError(f'Unrecognized remote locator type: {type(current_locator)}')
     elif target_protocol == RemoteProtocol.SSH:
         if isinstance(current_locator, SshRemoteLocator):
-            return
+            return None
         elif isinstance(current_locator, HttpsRemoteLocator):
             return current_locator.to_ssh(user=user)
         else:
@@ -100,9 +51,9 @@ def build_new_locator(
 
 
 def change_remote_protocol(
-    remote: Remote,
-    target_protocol: RemoteProtocol,
-    user: str,
+        remote: Remote,
+        target_protocol: RemoteProtocol,
+        user: str,
 ) -> None:
     current_url = next(iter(remote.urls))
     current_locator = RemoteLocator.parse_url(current_url)
