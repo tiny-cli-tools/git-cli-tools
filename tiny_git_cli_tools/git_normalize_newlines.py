@@ -83,8 +83,10 @@ def main() -> None:
         other=repo.head.commit,
     ) | set(repo.untracked_files)
 
+    print(f'Found {len(touched_file_paths)} touched files')
+
     for git_file_path in touched_file_paths:
-        absolute_file_path: str = os.path.join(args.repo_path, git_file_path)
+        absolute_file_path: str = os.path.join(repo.working_tree_dir, git_file_path)
 
         # All paths got from Git should be file paths, but add an extra check anyway
         if os.path.isfile(absolute_file_path):
@@ -98,6 +100,8 @@ def main() -> None:
                 print("A single trailing newline was already present ✅")
             elif status == TrailingNewlineStatus.DECODING_ERROR:
                 print("Decoding error! Is it binary? Ignoring ❌")
+        else:
+            print(f"File not found: {absolute_file_path}", file=sys.stderr)
 
 
 if __name__ == "__main__":
