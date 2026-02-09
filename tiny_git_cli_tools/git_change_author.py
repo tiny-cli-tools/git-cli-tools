@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 import argparse
 import sys
-from git import Actor, Repo
+from git import Actor
 
 from .git_rewrite_utils import rewrite_branch
+from .git_repo_utils import open_repository
 
 
 def parse_args() -> argparse.Namespace:
@@ -27,11 +28,7 @@ def main() -> None:
 
     new_author = Actor(args.author_name, args.author_email)
 
-    repo = Repo(args.repo_path)
-
-    if repo.bare:
-        print('Error: This is a bare repository.', file=sys.stderr)
-        sys.exit(1)
+    repo = open_repository(args.repo_path)
 
     if repo.is_dirty(untracked_files=True):
         print('Error: Working tree is dirty. Commit/stash your changes', file=sys.stderr)

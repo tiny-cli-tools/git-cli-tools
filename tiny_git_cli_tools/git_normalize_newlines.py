@@ -7,6 +7,8 @@ from typing import Callable, Union
 
 from git import Commit, Repo
 
+from .git_repo_utils import open_repository
+
 
 class TrailingNewlineStatus(Enum):
     WAS_NORMALIZED = 1
@@ -70,12 +72,7 @@ def main() -> None:
     parser.add_argument('--repo-path', help='Path to the root of the Git repository', default='.')
     args: argparse.Namespace = parser.parse_args()
 
-    repo: Repo = Repo(args.repo_path)
-
-    if repo.bare:
-        print("Error: This is a bare repository.")
-
-        sys.exit(1)
+    repo = open_repository(args.repo_path)
 
     # Get touched files (unstaged, staged, untracked)
     touched_file_paths: set[str] = repo_index_diff(

@@ -3,8 +3,9 @@ import argparse
 import sys
 from enum import Enum
 
-from git import Repo, Remote
+from git import Remote
 
+from .git_repo_utils import open_repository
 from .remote_locator import RemoteLocator, HttpsRemoteLocator, SshRemoteLocator
 
 
@@ -77,11 +78,7 @@ def change_remote_protocol(
 def main() -> None:
     args = parse_args()
 
-    repo = Repo(args.repo_path)
-
-    if repo.bare:
-        print('Error: This is a bare repository.', file=sys.stderr)
-        sys.exit(1)
+    repo = open_repository(args.repo_path)
 
     try:
         remote = repo.remotes[args.remote]

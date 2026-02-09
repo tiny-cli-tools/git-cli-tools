@@ -8,6 +8,7 @@ from git import Repo, Commit
 from openai.types.chat import ChatCompletionSystemMessageParam, ChatCompletionUserMessageParam
 from pydantic import BaseModel, Field
 
+from tiny_git_cli_tools.git_repo_utils import open_repository
 from tiny_git_cli_tools.remote_locator import RemoteLocator
 from .config import Config
 
@@ -121,12 +122,7 @@ def main() -> None:
         auth=github.Auth.Token(github_token),
     )
 
-    git_repo: Repo = Repo(args.repo_path)
-
-    if git_repo.bare:
-        print("Error: This is a bare repository.")
-
-        sys.exit(1)
+    git_repo: Repo = open_repository(args.repo_path)
 
     try:
         remote = git_repo.remotes[args.remote]
