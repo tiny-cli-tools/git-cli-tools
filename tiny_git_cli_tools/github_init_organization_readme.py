@@ -143,7 +143,6 @@ def main() -> None:
     try:
         organization.create_repo(
             name=repo_name,
-            description='Organization profile repository created by tiny-git-cli-tools.',
             private=False,
             auto_init=False,
         )
