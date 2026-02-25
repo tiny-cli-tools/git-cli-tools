@@ -60,17 +60,8 @@ def _build_remote_url(token: str, organization_name: str) -> str:
     return f'https://x-access-token:{encoded_token}@github.com/{organization_name}/.github.git'
 
 
-def _write_profile_readme(path: Path) -> None:
-    readme_content = textwrap.dedent(
-        """
-        # Organization profile
-
-        Welcome to the GitHub organization profile repository. This folder is the canonical place to
-        store GitHub metadata such as CODEOWNERS, ISSUE_TEMPLATEs, and the organization README.
-        """
-    ).strip()
-
-    path.write_text(f"{readme_content}\n")
+def _write_profile_readme(path: Path, organization_name: str) -> None:
+    path.write_text(f"# {organization_name}\n")
 
 
 def _create_temp_repo_and_push(token: str, organization_name: str) -> None:
@@ -83,7 +74,7 @@ def _create_temp_repo_and_push(token: str, organization_name: str) -> None:
         profile_dir.mkdir(parents=True)
 
         readme_path = profile_dir / 'README.md'
-        _write_profile_readme(readme_path)
+        _write_profile_readme(readme_path, organization_name=organization_name)
 
         repo.index.add([str(readme_path.relative_to(repo_path))])
         repo.index.commit('Add organization profile README')
