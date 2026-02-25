@@ -8,6 +8,7 @@ from openai.types.chat import ChatCompletionSystemMessageParam, ChatCompletionUs
 from pydantic import BaseModel
 
 from .config import Config
+from .open_ai_utils import create_open_ai_client_conventionally
 
 
 class ResponseModel(BaseModel):
@@ -94,14 +95,7 @@ def main() -> None:
     args: argparse.Namespace = parser.parse_args()
 
     config = Config.read()
-
-    openai_api_key = config.openai_api_key
-
-    if openai_api_key is None:
-        print("Error: OpenAI API key is not configured", file=sys.stderr)
-        sys.exit(1)
-
-    open_ai_client = openai.OpenAI(api_key=openai_api_key)
+    open_ai_client = create_open_ai_client_conventionally(config)
 
     repo: Repo = Repo(args.repo_path)
 

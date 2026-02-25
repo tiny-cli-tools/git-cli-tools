@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 
 from tiny_git_cli_tools.git_repo_utils import open_repository_conventionally
 from tiny_git_cli_tools.github_utils import create_github_client_conventionally
+from tiny_git_cli_tools.open_ai_utils import create_open_ai_client_conventionally
 from tiny_git_cli_tools.remote_locator import RemoteLocator
 from .config import Config
 
@@ -110,7 +111,7 @@ def main() -> None:
         print("Error: OpenAI API key is not configured", file=sys.stderr)
         sys.exit(1)
 
-    open_ai_client = openai.OpenAI(api_key=openai_api_key)
+    open_ai_client = create_open_ai_client_conventionally(config)
 
     github_client = create_github_client_conventionally(config)
 
