@@ -4,7 +4,7 @@ import sys
 from git import Actor
 
 from .git_rewrite_utils import rewrite_branch
-from .git_repo_utils import open_repository
+from .git_repo_utils import open_repository_conventionally
 
 
 def parse_args() -> argparse.Namespace:
@@ -28,7 +28,7 @@ def main() -> None:
 
     new_author = Actor(args.author_name, args.author_email)
 
-    repo = open_repository(args.repo_path)
+    repo = open_repository_conventionally(args.repo_path)
 
     if repo.is_dirty(untracked_files=True):
         print('Error: Working tree is dirty. Commit/stash your changes', file=sys.stderr)

@@ -2,13 +2,13 @@
 import argparse
 import sys
 
-import github
 import openai
 from git import Repo, Commit
 from openai.types.chat import ChatCompletionSystemMessageParam, ChatCompletionUserMessageParam
 from pydantic import BaseModel, Field
 
-from tiny_git_cli_tools.git_repo_utils import open_repository
+from tiny_git_cli_tools.git_repo_utils import open_repository_conventionally
+from tiny_git_cli_tools.github_utils import create_github_client_conventionally
 from tiny_git_cli_tools.remote_locator import RemoteLocator
 from .config import Config
 
@@ -110,19 +110,11 @@ def main() -> None:
         print("Error: OpenAI API key is not configured", file=sys.stderr)
         sys.exit(1)
 
-    github_token = config.github_token
-
-    if github_token is None:
-        print("Error: GitHub token is not configured", file=sys.stderr)
-        sys.exit(1)
-
     open_ai_client = openai.OpenAI(api_key=openai_api_key)
 
-    github_client = github.Github(
-        auth=github.Auth.Token(github_token),
-    )
+    github_client = create_github_client_conventionally(config)
 
-    git_repo: Repo = open_repository(args.repo_path)
+    git_repo: Repo = open_repository_conventionally(args.repo_path)
 
     try:
         remote = git_repo.remotes[args.remote]

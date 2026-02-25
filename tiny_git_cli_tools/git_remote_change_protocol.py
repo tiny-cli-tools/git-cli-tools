@@ -5,7 +5,7 @@ from enum import Enum
 
 from git import Remote
 
-from .git_repo_utils import open_repository
+from .git_repo_utils import open_repository_conventionally
 from .remote_locator import RemoteLocator, HttpsRemoteLocator, SshRemoteLocator
 
 
@@ -78,7 +78,7 @@ def change_remote_protocol(
 def main() -> None:
     args = parse_args()
 
-    repo = open_repository(args.repo_path)
+    repo = open_repository_conventionally(args.repo_path)
 
     try:
         remote = repo.remotes[args.remote]

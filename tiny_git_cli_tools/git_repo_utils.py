@@ -6,7 +6,7 @@ from git import Repo
 from git.exc import InvalidGitRepositoryError
 
 
-def open_repository(
+def open_repository_conventionally(
         repo_path: str,
 ) -> Repo:
     path = Path(repo_path).resolve()

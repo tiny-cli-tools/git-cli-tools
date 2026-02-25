@@ -11,7 +11,8 @@ from github import GithubException, UnknownObjectException
 from git import GitCommandError, Repo
 
 from tiny_git_cli_tools.config import Config
-from tiny_git_cli_tools.git_repo_utils import open_repository
+from tiny_git_cli_tools.github_utils import create_github_client_conventionally
+from tiny_git_cli_tools.git_repo_utils import open_repository_conventionally
 from tiny_git_cli_tools.remote_locator import RemoteLocator
 
 
@@ -99,7 +100,7 @@ def _create_temp_repo_and_push(token: str, organization_name: str) -> None:
 
 def main() -> None:
     args = _parse_args()
-    repo = open_repository(args.repo_path)
+    repo = open_repository_conventionally(args.repo_path)
 
     try:
         remote = repo.remotes[args.remote]
@@ -126,13 +127,9 @@ def main() -> None:
         sys.exit(1)
 
     config = Config.read()
+    github_client = create_github_client_conventionally(config)
     github_token = config.github_token
-
-    if github_token is None:
-        _print_error('GitHub token is not configured. Please set github_token in ~/.config/tiny_git_tools/config.toml')
-        sys.exit(1)
-
-    github_client = github.Github(auth=github.Auth.Token(github_token))
+    assert github_token is not None
 
     try:
         organization = github_client.get_organization(organization_name)

@@ -7,7 +7,7 @@ from typing import Callable, Union
 
 from git import Commit, Repo
 
-from .git_repo_utils import open_repository
+from .git_repo_utils import open_repository_conventionally
 
 
 class TrailingNewlineStatus(Enum):
@@ -72,7 +72,7 @@ def main() -> None:
     parser.add_argument('--repo-path', help='Path to the root of the Git repository', default='.')
     args: argparse.Namespace = parser.parse_args()
 
-    repo = open_repository(args.repo_path)
+    repo = open_repository_conventionally(args.repo_path)
 
     # Get touched files (unstaged, staged, untracked)
     touched_file_paths: set[str] = repo_index_diff(
