@@ -105,3 +105,15 @@ Example usage:
 ```
 github-create-pr --enable-auto-merge
 ```
+
+### `github-init-organization-readme`
+
+Ensures the organization-level `.github` repository exists and seeds a `profile/README.md` stub. The command infers
+the organization from the current repository (unless overridden) and uses a configured GitHub token to create the repo
+and push the initial content via a temporary local repository.
+
+Example usage:
+
+```
+github-init-organization-readme
+```

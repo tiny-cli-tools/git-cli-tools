@@ -19,6 +19,7 @@ git-add-missing-signatures = "tiny_git_cli_tools.git_add_missing_signatures:main
 git-remote-change-protocol = "tiny_git_cli_tools.git_remote_change_protocol:main"
 git-name-feature-branch = "tiny_git_cli_tools.git_name_feature_branch:main"
 github-create-pr = "tiny_git_cli_tools.github_create_pr:main"
+github-init-organization-readme = "tiny_git_cli_tools.github_init_organization_readme:main"
 
 [build-system]
 requires = ["setuptools>=61.0"]
