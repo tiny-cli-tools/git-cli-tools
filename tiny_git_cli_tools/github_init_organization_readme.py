@@ -157,7 +157,6 @@ def main() -> None:
             description='Organization profile repository created by tiny-git-cli-tools.',
             private=False,
             auto_init=False,
-            default_branch='main',
         )
         _print_success(f'Created GitHub repository {organization_name}/{repo_name}.')
     except GithubException as exc:
