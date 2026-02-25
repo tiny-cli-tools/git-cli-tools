@@ -3,6 +3,7 @@ import os
 import sys
 
 import github
+from typing import Tuple
 
 from tiny_git_cli_tools.config import Config
 
@@ -10,7 +11,7 @@ from tiny_git_cli_tools.config import Config
 GITHUB_ENV_VAR = 'GITHUB_TOKEN'
 
 
-def create_github_client_conventionally(config: Config) -> github.Github:
+def create_github_client_conventionally(config: Config) -> Tuple[github.Github, str]:
     github_token = os.environ.get(GITHUB_ENV_VAR) or config.github_token
 
     if github_token is None:
@@ -20,4 +21,4 @@ def create_github_client_conventionally(config: Config) -> github.Github:
         )
         sys.exit(1)
 
-    return github.Github(auth=github.Auth.Token(github_token))
+    return github.Github(auth=github.Auth.Token(github_token)), github_token

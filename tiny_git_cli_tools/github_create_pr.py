@@ -113,7 +113,7 @@ def main() -> None:
 
     open_ai_client = create_open_ai_client_conventionally(config)
 
-    github_client = create_github_client_conventionally(config)
+    github_client, _ = create_github_client_conventionally(config)
 
     git_repo: Repo = open_repository_conventionally(args.repo_path)
 

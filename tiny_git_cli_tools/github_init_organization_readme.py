@@ -127,9 +127,7 @@ def main() -> None:
         sys.exit(1)
 
     config = Config.read()
-    github_client = create_github_client_conventionally(config)
-    github_token = config.github_token
-    assert github_token is not None
+    github_client, github_token = create_github_client_conventionally(config)
 
     try:
         organization = github_client.get_organization(organization_name)
